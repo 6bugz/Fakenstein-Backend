@@ -4,7 +4,7 @@ import json
 import firebase_connection
 import blending
 
-#INPUT: reads image path from system args
+#INPUT: reads image path from system args, reads faces.json from filesystem
 #PRINT: prints error if there were no faces detected in the image
 #SAVE: saves the reblended faces into faces.json file with the following values:
 #isBackground: if the face is in background - True, else - False
@@ -53,7 +53,7 @@ def main():
     image = Image.open(image_path)
 
     #read json
-    json_path = sys.argv[2]
+    json_path = "faces.json"
     json_f = open(json_path)
     faces = json.load(json_f)
 
