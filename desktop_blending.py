@@ -61,38 +61,36 @@ def main():
 
     #in json, read parameter: reblend: if it is True, reblend the face, else don't touch it!
     for face in faces:
-        for index in face:
-            if (face[index]["reblend"] == False):
-                continue
-            properties = face[index]
-            left = properties["left"]
-            top = properties["top"]
-            right = properties["left"] + properties["width"]
-            bottom = properties["top"] + properties["height"]
+        if (faces[face]["reblend"] == False) :
+            continue
+        properties = faces[face]
+        left = properties["left"]
+        top = properties["top"]
+        right = properties["left"] + properties["width"]
+        bottom = properties["top"] + properties["height"]
 
-            # draw.rectangle([(left, top), (right, bottom)], outline="red", fill="magenta")
-            # image.save("isitface{}.jpg".format(face), "JPEG")
+        # draw.rectangle([(left, top), (right, bottom)], outline="red", fill="magenta")
+        # image.save("isitface{}.jpg".format(face), "JPEG")
 
-            left, top, right, bottom = resize_box(left, top, right, bottom, image.width, image.height)
-            single_face = image.crop((left, top, right, bottom))
+        left, top, right, bottom = resize_box(left, top, right, bottom, image.width, image.height)
+        single_face = image.crop((left, top, right, bottom))
             #single_face.save("{}_cropped.jpg".format(index))
 
-            age = face[index]["age"]
-            gender = face[index]["gender"]
-            race = face[index]["skinColor"]
+        age = properties["age"]
+        gender = properties["gender"]
+        race = properties["skinColor"]
 
-            # retrieve image from database here (called db_image)
-            db_image = firebase_connection.retrieve_image_from_database(age, gender, race)
+        # retrieve image from database here (called db_image)
+        db_image = firebase_connection.retrieve_image_from_database(age, gender, race)
 
-            blended = blending.blend_faces(db_image.convert("RGB"), single_face.convert("RGB"))
-            if blended is None:
-                face[index]["invalid"] = True
-            else :
-                face[index]["invalid"] = False
-                image.paste(blended, (left, top))
-                last_image_name = 'output_blended{}.png'.format(index)
-                image.save(last_image_name)
-
+        blended = blending.blend_faces(db_image.convert("RGB"), single_face.convert("RGB"))
+        if blended is None:
+            faces[face]["invalid"] = True
+        else :
+            faces[face]["invalid"] = False
+            image.paste(blended, (int(left), int(top)))
+            last_image_name = 'output_blended{}.png'.format(face)
+            image.save(last_image_name)
 
     #todo: should I change reblend back to false after blending?
     with open('faces.json', 'w') as fp:

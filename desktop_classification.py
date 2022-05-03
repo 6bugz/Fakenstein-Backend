@@ -65,43 +65,42 @@ def main():
     #todo: does it have index (like android) or only faces? (currently has index)
     #todo: face is not going to be classified(foreground) sends null?
     for face in faces:
-        for index in face:
-            if(face[index]["isBackground"] == False):
-                continue
-            properties = face[index]
-            left = properties["left"]
-            top = properties["top"]
-            right = properties["left"] + properties["width"]
-            bottom = properties["top"] + properties["height"]
+        if(faces[face]["isBackground"] == False):
+            continue
+        properties = faces[face]
+        left = properties["left"]
+        top = properties["top"]
+        right = properties["left"] + properties["width"]
+        bottom = properties["top"] + properties["height"]
 
-            # draw.rectangle([(left, top), (right, bottom)], outline="red", fill="magenta")
-            # image.save("isitface{}.jpg".format(face), "JPEG")
+        # draw.rectangle([(left, top), (right, bottom)], outline="red", fill="magenta")
+        # image.save("isitface{}.jpg".format(face), "JPEG")
 
-            left, top, right, bottom = resize_box(left, top, right, bottom, image.width, image.height)
-            single_face = image.crop((left, top, right, bottom))
+        left, top, right, bottom = resize_box(left, top, right, bottom, image.width, image.height)
+        single_face = image.crop((left, top, right, bottom))
 
-            #single_face.save("{}_cropped.jpg".format(index))
-            #print("Benim croplar size:", single_face.size)
+        #single_face.save("{}_cropped.jpg".format(index))
+        #print("Benim croplar size:", single_face.size)
 
-            age, gender, race = classification.classify(single_face)
-            face[index]["age"] = age
-            face[index]["gender"] = gender
-            face[index]["skinColor"] = race
+        age, gender, race = classification.classify(single_face)
+        faces[face]["age"] = age
+        faces[face]["gender"] = gender
+        faces[face]["skinColor"] = race
 
-            # retrieve image from database here (called db_image)
-            db_image = firebase_connection.retrieve_image_from_database(age, gender, race)
+        # retrieve image from database here (called db_image)
+        db_image = firebase_connection.retrieve_image_from_database(age, gender, race)
 
-            blended = blending.blend_faces(db_image.convert("RGB"), single_face.convert(
+        blended = blending.blend_faces(db_image.convert("RGB"), single_face.convert(
                 "RGB"))  # single_face.convert('RGB')) #is in PIL IMAGE FORMAT
-            if blended is None:
-                face[index]["invalid"] = True
-            else:
-                face[index]["invalid"] = False
-                image.paste(blended, (left, top))
-                last_image_name = 'output_blended{}.png'.format(index)
-                image.save(last_image_name)
-                # raise InvalidUsage("No destination face found! Remove box from image!", status_code=410)
-                # image = blended
+        if blended is None:
+            faces[face]["invalid"] = True
+        else:
+            faces[face]["invalid"] = False
+            image.paste(blended, (int(left), int(top)))
+            last_image_name = 'output_blended{}.png'.format(face)
+            image.save(last_image_name)
+            # raise InvalidUsage("No destination face found! Remove box from image!", status_code=410)
+            # image = blended
 
     with open('faces.json', 'w') as fp:
         json.dump(faces, fp)

@@ -24,13 +24,14 @@ def retrieve_image_from_database(age, gender, race):
     if gender == 1:
         gender_str = "male"
 
-    skin_str = "white"
+    skin_str = "pale"
     if race == 1:
         skin_str = "dark"
     path = gender_str + '/' + age_str + '/' + skin_str
 
     #get name of the image to download (randomly chosen)
     all_image_names = firebase.get(path, None)
+    #print(path)
     #print(all_image_names)
     #print(len(all_image_names.keys()))
 

@@ -97,21 +97,26 @@ def detect(image):
     numpy_img = np.array(image)
     fore_array, back_array = detect_background(numpy_img, image)
     #format: dict- isBackground(bool), height, width, top(y), left(x)
-    faces = []
+    faces = {}
+    count = 0
     for fore_face in fore_array:
         x = fore_face[0]
         y = fore_face[1]
         width = fore_face[2]
         height = fore_face[3]
         face = {"isBackground": False, "height": height, "width": width, "top": y, "left": x}
-        faces.append(face)
+        faces[str(count)] = face
+        count += 1
     for back_face in back_array:
         x = back_face[0]
         y = back_face[1]
         width = back_face[2]
         height = back_face[3]
         face = {"isBackground": True, "height": height, "width": width, "top": y, "left": x}
-        faces.append(face)
+        #changed for desktop!! (array in server version)
+        faces[str(count)] = face
+        count += 1
+
     if len(faces) == 0:
         return None
     return faces
