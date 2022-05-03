@@ -338,7 +338,7 @@ def blend_faces(src_img, dst_img):
         #print(single_face.shape)
         single = cv2.cvtColor(single_face, cv2.COLOR_BGR2RGB)
         single = Image.fromarray(single)
-        single.save("single_face{}.jpg".format(k), "JPEG")
+        #single.save("single_face{}.jpg".format(k), "JPEG")
         #print("image size: ", single.size)
 
         output = face_swap(src_face, dst_face["face"], src_points,
@@ -354,8 +354,8 @@ def blend_faces(src_img, dst_img):
         np_img[y:y + output.shape[0], x:x + output.shape[1]] = output """
 
     #cv2.imwrite('src.jpg', src_img_cv2)
-    cv2.imwrite('dst.jpg', dst_img_cv2)
-    cv2.imwrite('out_cropped.jpg', output)
+    #cv2.imwrite('dst.jpg', dst_img_cv2)
+    #cv2.imwrite('out_cropped.jpg', output)
 
 
     output_conv = cv2.cvtColor(output, cv2.COLOR_BGR2RGB)

@@ -91,7 +91,7 @@ def bf_boundary_box(i, foreground_faces, background_faces):
         x, y, width, height, _, _ = face
         # create the shape
         draw.rectangle([(x, y), (x + width, y + height)], outline="blue")
-    i.save("elifeeee.jpg", "JPEG")
+    #i.save("elifeeee.jpg", "JPEG")
 
 def detect(image):
     numpy_img = np.array(image)
