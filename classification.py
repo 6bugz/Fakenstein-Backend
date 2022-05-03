@@ -91,8 +91,4 @@ def classify(image):
   age = classify_age(image, device)
   race = classify_race(image, device)
 
-  print('Gender',gender)
-  print('Age',age)
-  print('Race',race)
-
   return age, gender, race

@@ -32,7 +32,7 @@ def detect_background(image, pil_image):
     faces = face_detection(image)
 
     if faces is None or len(faces) == 0:
-        print("No faces detected")
+        #print("No faces detected")
         return [],[]
 
     ratio_box_array = []

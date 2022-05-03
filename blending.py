@@ -328,18 +328,18 @@ def blend_faces(src_img, dst_img):
     dst_faceBoxes = select_all_faces(predictor, dst_img_cv2)
 
     if dst_faceBoxes is None:
-        print('Detect 0 Face !!!')
+        #print('Detect 0 Face !!!')
         return None
 
     output = dst_img_cv2
 
     for k, dst_face in dst_faceBoxes.items():
         single_face = dst_face["face"]
-        print(single_face.shape)
+        #print(single_face.shape)
         single = cv2.cvtColor(single_face, cv2.COLOR_BGR2RGB)
         single = Image.fromarray(single)
         single.save("single_face{}.jpg".format(k), "JPEG")
-        print("image size: ", single.size)
+        #print("image size: ", single.size)
 
         output = face_swap(src_face, dst_face["face"], src_points,
                            dst_face["points"], dst_face["shape"],

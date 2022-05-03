@@ -11,7 +11,6 @@ storage_path = "fakenstein-239a1.appspot.com"
 if not firebase_admin._apps:
     cred = credentials.Certificate('fakenstein-239a1-firebase-adminsdk-4rprv-d88ff62cf1.json')
     default_app = firebase_admin.initialize_app(cred, {'databaseURL': database_path})
-    print("done")
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="fakenstein-239a1-firebase-adminsdk-4rprv-d88ff62cf1.json"
 firebase = firebase.FirebaseApplication(database_path)
@@ -32,11 +31,11 @@ def retrieve_image_from_database(age, gender, race):
 
     #get name of the image to download (randomly chosen)
     all_image_names = firebase.get(path, None)
-    print(all_image_names)
-    print(len(all_image_names.keys()))
+    #print(all_image_names)
+    #print(len(all_image_names.keys()))
 
     id, image_no = random.choice(list(all_image_names.items()))
-    print(id, image_no)
+    #print(id, image_no)
 
     #download image
     config = {
