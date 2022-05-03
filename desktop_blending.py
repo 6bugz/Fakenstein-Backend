@@ -61,7 +61,7 @@ def main():
 
     #in json, read parameter: reblend: if it is True, reblend the face, else don't touch it!
     for face in faces:
-        if (faces[face]["reblend"] == False) :
+        if (faces[face]["reblend"] == False):
             continue
         properties = faces[face]
         left = properties["left"]
