@@ -10,7 +10,7 @@ To set up the backend:
   - pip install -r requirements.txt
 
   With conda:
-  - conda create --name <env_name> python=<version>
+  - conda create --name <env_name> python = <version>
   - pip install requirements.txt
 
 - It is advised to use a virtual environment with a Python version of 3.7 or
